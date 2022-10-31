@@ -1,0 +1,16 @@
+nma = nmap.PortScannerAsync()
+>>> def callback_result(host, scan_result):
+>>>     print '------------------'
+>>>     print host, scan_result
+>>>
+>>> nma.scan(hosts='192.168.1.0/30', arguments='-sP', callback=callback_result)
+>>> while nma.still_scanning():
+>>>     print("Waiting >>>")
+>>>     nma.wait(2)   # you can do whatever you want but I choose to wait after the end of the scan
+>>>
+192.168.1.1 {'nmap': {'scanstats': {'uphosts': '1', 'timestr': 'Mon Jun  7 11:31:11 2010', 'downhosts': '0', 'totalhosts': '1', 'elapsed': '0.43'}, 'scaninfo': {}, 'command_line': 'nmap -oX - -sP 192.168.1.1'}, 'scan': {'192.168.1.1': {'status': {'state': 'up', 'reason': 'arp-response'}, 'hostname': 'neufbox'}}}
+------------------
+192.168.1.2 {'nmap': {'scanstats': {'uphosts': '0', 'timestr': 'Mon Jun  7 11:31:11 2010', 'downhosts': '1', 'totalhosts': '1', 'elapsed': '0.29'}, 'scaninfo': {}, 'command_line': 'nmap -oX - -sP 192.168.1.2'}, 'scan': {'192.168.1.2': {'status': {'state': 'down', 'reason': 'no-response'}, 'hostname': ''}}}
+------------------
+192.168.1.3 {'nmap': {'scanstats': {'uphosts': '0', 'timestr': 'Mon Jun  7 11:31:11 2010', 'downhosts': '1', 'totalhosts': '1', 'elapsed': '0.29'}, 'scaninfo': {}, 'command_line': 'nmap -oX - -sP 192.168.1.3'}, 'scan': {'192.168.1.3': {'status': {'state': 'down', 'reason': 'no-response'}, 'hostname': ''}}}
+>>> nm = nmap.PortScannerYield() >>> for progressive_result in nm.scan('127.0.0.1/24', '22-25'): >>> print(progressive_result)
