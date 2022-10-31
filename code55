@@ -1,0 +1,14 @@
+for char in characters:
+	sys.stdout.write("U+"+str(start)+"\n")
+	sys.stdout.write("\033[F")
+	sys.stdout.flush()
+	start=start+1
+	#response=req.get(url.replace("FUZZ",char),proxies=proxy) #Uncomment to apply proxy
+	response=req.get(url.replace("FUZZ",char))
+
+	status=response.status_code
+
+	#Change as per your needs
+	if status==200 and len(response.text)>=5:
+		print("200 : "+char+" [U+"+str(start-1)+"]\n")
+	
