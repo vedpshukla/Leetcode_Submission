@@ -1,0 +1,49 @@
+elif extension(queue_item.request.url).lower() in static_extensions:		
+		if("?" in queue_item.request.url):
+			path=queue_item.request.url[:queue_item.request.url.find("?")]
+			query=queue_item.request.url[queue_item.request.url.find("?"):]
+		else:
+			path=queue_item.request.url
+
+		path_static[path].append(query)
+
+		open(domain+"_HTML_Links.json","w").write(str(json.dumps(path_static)))
+
+		print(" HTML > {}".format(queue_item.request.url))
+
+	elif extension(queue_item.request.url).lower() in scripts_extensions :
+
+		if("?" in queue_item.request.url):
+			path=queue_item.request.url[:queue_item.request.url.find("?")]
+			query=queue_item.request.url[queue_item.request.url.find("?"):]
+		else:
+			path=queue_item.request.url
+
+		path_scripts[path].append(query)
+
+		open(domain+"_ServerScripts_Links.json","w").write(str(json.dumps(path_scripts))) # Json format was not valid 
+		print(" ServerScripts > {}".format(queue_item.request.url))
+
+
+	else:
+
+		if("?" in queue_item.request.url):
+			path=queue_item.request.url[:queue_item.request.url.find("?")]
+			query=queue_item.request.url[queue_item.request.url.find("?"):]
+		else:
+			path=queue_item.request.url
+
+		path_other[path].append(query)
+
+		open(domain+"_Others_Links.json","w").write(str(json.dumps(path_other)))
+		print(" Others> {}".format(queue_item.request.url))
+
+	return CrawlerActions.DO_CONTINUE_CRAWLING
+
+options.callbacks.crawler_before_start = cb_crawler_before_start # Called before the crawler starts crawling. Default is a null route.
+options.callbacks.crawler_after_finish = cb_crawler_after_finish # Called after the crawler finished crawling. Default is a null route.
+options.callbacks.request_before_start = cb_request_before_start # Called before the crawler starts a new request. Default is a null route.
+options.callbacks.request_after_finish = cb_request_after_finish # Called after the crawler finishes a request. Default is a null route.
+
+crawler = Crawler(options)
+crawler.start_with(Request(host))
