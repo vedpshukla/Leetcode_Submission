@@ -1,0 +1,34 @@
+def cb_crawler_after_finish(queue):
+  print("Crawling finished.")
+  print("Server will be still running in background.")
+
+  #print("Crawled " + str(len(queue.get_all(QueueItem.STATUS_FINISHED))) + " URLs")
+  #try:
+   # p.kill()  
+    #print("Server stopped.")
+  #except:
+   # pass
+
+def cb_request_before_start(queue, queue_item):
+  if queue_item.request.url in crawled_urls_to_check_dups: # To avoid duplicate links crawling
+    return CrawlerActions.DO_SKIP_TO_NEXT
+  if extension(queue_item.request.url) in ignored_extensions: # Don't crawl gif, jpg , etc
+    return CrawlerActions.DO_SKIP_TO_NEXT
+  return CrawlerActions.DO_CONTINUE_CRAWLING
+
+def cb_request_after_finish(queue, queue_item, new_queue_items):
+	global query,path
+	crawled_urls_to_check_dups.append(queue_item.request.url) # Add newly obtained URL in list
+
+	if extension(queue_item.request.url).lower() in js_extensions :
+		if("?" in queue_item.request.url):
+			path=queue_item.request.url[:queue_item.request.url.find("?")]
+			query=queue_item.request.url[queue_item.request.url.find("?"):]
+		else:
+			path=queue_item.request.url
+			query=""
+
+		path_js[path].append(query)
+
+		open(domain+"_JS_Links.json","w").write(str(json.dumps(path_js)))
+		print(" JS > {}".format(queue_item.request.url))
