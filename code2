@@ -1,0 +1,108 @@
+import os,json
+import signal
+import subprocess
+import time
+from nyawc.Options import Options
+from nyawc.Crawler import Crawler
+from nyawc.CrawlerActions import CrawlerActions
+from nyawc.http.Request import Request
+import pathlib
+from collections import defaultdict
+import signal
+import sys
+
+
+if len(sys.argv)!=2:
+	print("Usage : python Links_Crawler.py http(s)://website.com")
+	exit()
+
+
+options = Options()
+
+###############################
+#Local Server Configuration
+
+port=8089
+cmd="python -m SimpleHTTPServer "+str(port)+" 2>/dev/null"
+
+#Crawling Configurations
+
+host=sys.argv[1]
+crawled_urls_to_check_dups=[]
+#ignored_extensions=["css"]
+ignored_extensions=["gif","jpg","png","css","jpeg","woff","ttf","eot","svg","woff2","ico"]
+js_extensions=["js"]
+static_extensions=["html","htm","xhtml","xhtm","shtml"]
+scripts_extensions=["php","jsp","asp","aspx","py","pl","ashx","php1","php2","php3","php4"]
+
+
+
+#Scope Configurations
+
+options.scope.protocol_must_match = False
+options.scope.subdomain_must_match = False
+options.scope.hostname_must_match = True
+options.scope.tld_must_match = True
+options.scope.max_depth = None
+options.scope.request_methods = [
+    Request.METHOD_GET,
+    Request.METHOD_POST,
+    Request.METHOD_PUT,
+    Request.METHOD_DELETE,
+    Request.METHOD_OPTIONS,
+    Request.METHOD_HEAD
+]
+import os,json
+import signal
+import subprocess
+import time
+from nyawc.Options import Options
+from nyawc.Crawler import Crawler
+from nyawc.CrawlerActions import CrawlerActions
+from nyawc.http.Request import Request
+import pathlib
+from collections import defaultdict
+import signal
+import sys
+
+
+if len(sys.argv)!=2:
+	print("Usage : python Links_Crawler.py http(s)://website.com")
+	exit()
+
+
+options = Options()
+
+###############################
+#Local Server Configuration
+
+port=8089
+cmd="python -m SimpleHTTPServer "+str(port)+" 2>/dev/null"
+
+#Crawling Configurations
+
+host=sys.argv[1]
+crawled_urls_to_check_dups=[]
+#ignored_extensions=["css"]
+ignored_extensions=["gif","jpg","png","css","jpeg","woff","ttf","eot","svg","woff2","ico"]
+js_extensions=["js"]
+static_extensions=["html","htm","xhtml","xhtm","shtml"]
+scripts_extensions=["php","jsp","asp","aspx","py","pl","ashx","php1","php2","php3","php4"]
+
+
+
+#Scope Configurations
+
+options.scope.protocol_must_match = False
+options.scope.subdomain_must_match = False
+options.scope.hostname_must_match = True
+options.scope.tld_must_match = True
+options.scope.max_depth = None
+options.scope.request_methods = [
+    Request.METHOD_GET,
+    Request.METHOD_POST,
+    Request.METHOD_PUT,
+    Request.METHOD_DELETE,
+    Request.METHOD_OPTIONS,
+    Request.METHOD_HEAD
+]
