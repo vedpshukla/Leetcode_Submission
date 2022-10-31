@@ -1,0 +1,21 @@
+import requests as req
+import sys
+
+
+start=1
+end=1000
+
+# Only 0 through 1,114,111 (0x10FFFF in base 16) is supported by "chr".
+
+url="http://127.0.0.1:8082/aFUZZb"
+proxy={"http":"http://127.0.0.1:8080","https":"https://127.0.0.1:8080"}
+
+
+global characters
+characters=[]
+def init():
+	for index in range(start,end):
+		characters.append(chr(index))
+
+
+init()
