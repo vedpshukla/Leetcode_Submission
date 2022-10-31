@@ -1,0 +1,33 @@
+# Linked list implementation in Python
+
+
+class Node:
+    # Creating a node
+    def __init__(self, val):
+        self.val = val
+        self.next = None
+
+
+class LinkedList:
+
+    def __init__(self):
+        self.head = None
+
+
+if __name__ == '__main__':
+
+    LL = LinkedList()
+
+    # Assign val values
+    LL.head = Node(1)
+    second = Node(2)
+    third = Node(3)
+
+    # Connect nodes
+    LL.head.next = second
+    second.next = third
+
+    # Print the linked list val
+    while LL.head != None:
+        print(LL.head.val, end=" ")
+        LL.head = LL.head.next
