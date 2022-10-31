@@ -1,0 +1,57 @@
+domain=host[host.find("://")+3:]
+
+if "/" in domain: # when whole path is specified
+	domain=domain[:domain.find("/")]
+
+open("domain.js","w").write("domain='"+domain+"';"+"disallowed_ext=\""+str(ignored_extensions)+"\";"+"static_extensions=\""+str(static_extensions)+"\";"+"scripts_extensions=\""+str(scripts_extensions)+"\";")
+
+
+
+path_js=defaultdict(list)
+path_static=defaultdict(list)
+path_scripts=defaultdict(list)
+path_other=defaultdict(list)
+
+path=""
+query=""
+
+p = subprocess.Popen(cmd, stdout=subprocess.PIPE,shell=True, preexec_fn=os.setsid)
+
+
+print("\nServer started \n Check :  http://127.0.0.1:"+str(port)+"\n\nPress Ctrl+Z to exit\n\n")
+
+print("--"*30)
+print("\nJS Extension : "+str(js_extensions))
+print("HTML Extension : "+str(static_extensions))
+print("Server Scripts Extension : "+str(scripts_extensions))
+print("Disallowed Extension : "+str(ignored_extensions))
+
+
+print("--"*30)
+
+def signal_handler(signal, frame):
+  print("Press Ctrl+Z to exit")
+  try:
+    p.kill()  
+    print("Server stopped.")
+    exit()
+  except:
+    pass
+
+
+
+def extension(str):
+	if "?" in str:
+		str=str[0:str.find("?")]
+	str=pathlib.Path(str).suffix
+	return str[1:len(str)]
+
+
+def cb_crawler_before_start():
+  try :
+    signal.signal(signal.SIGINT, signal_handler)
+
+  except:
+    print("\nCheck if port is already open in case server is not started.")
+		#exit(1)
+	
